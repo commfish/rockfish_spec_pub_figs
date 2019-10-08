@@ -12,6 +12,19 @@ br_bio <- read_csv("data/br_bio.csv") %>%
 xaxis <- tickr(harvest, year, 5)
 
 
+# fig se3 ----
+
+harvest %>% 
+  filter(species == "black", fishery == "comm", region == "southeast") %>% 
+  ggplot(aes(year, catch)) +
+  geom_bar(stat = "identity") +
+  scale_y_continuous(name = "Harvest (lbs)\n", labels = scales::comma) +
+  scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) +
+  scale_fill_grey(name = "")
+
+ggsave("figs/black_catch_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+
+
 # fig se4 ----
 harvest %>% 
   filter(species == "pelagic", fishery == "sport", region == "southeast") %>% 
@@ -110,6 +123,31 @@ harvest %>%
   scale_fill_grey(name = "")
 
 ggsave("figs/yelloweye_catch_district_sport_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+
+
+# fig se10 ----
+
+read_csv("data/dsr_bio_1983-1995.csv") %>% 
+  bind_rows(read_csv("data/dsr_bio_1996-2018.csv")) %>% 
+  dplyr::select(area = G_MANAGEMENT_AREA_CODE, year = YEAR, age = AGE, Sex = SEX_CODE, length = LENGTH_MILLIMETERS) %>%  
+  mutate(Year = factor(year), Sex = case_when(Sex == 1 ~ "male", 
+                                              Sex == 2 ~ "female"),
+         Area = case_when(area %in% c("NSEI", "SSEI") ~ "Inside",
+                          area %in% c("SSEO", "CSEO", "NSEO", "EYKT") ~ "Outside"),
+         length = length / 10) %>% 
+  drop_na(Sex) %>% 
+  drop_na(Area) %>% 
+  ggplot(aes(length, Year, height = ..density..)) + 
+  geom_density_ridges(scale = 2.2, alpha = .6) +
+  facet_wrap(~Sex) +
+  scale_fill_grey() +
+  xlab("\nLength (cm)") +
+  ylab("Year\n") +
+  theme(legend.justification=c(0,1), legend.position=c(0,1))
+
+ggsave("figs/dsr_length_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+
+
 
 # fig se11 ----
 
