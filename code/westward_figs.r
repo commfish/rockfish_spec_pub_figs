@@ -86,7 +86,8 @@ sport_bio %>%
                 Area = `Mgmt Area Code`, age = Age) %>% 
   filter(Area == "Kod") %>% 
   mutate(Sex = ifelse(sex == 1, "male", "female"), 
-         Year = factor(year)) %>% 
+         Year = factor(year), 
+         length = length * 0.983 - 1.421) %>% 
   group_by(Year, Sex, length) %>% 
   summarise(n = n()) %>% 
   ggplot(aes(length, Year, height = ..density..)) + 
