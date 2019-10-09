@@ -18,7 +18,7 @@ harvest %>%
   scale_fill_grey(name = "") +
   theme(legend.position = c(0.8, 0.8))
 
-ggsave("figs/black_catch_district_comm_central.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/c6_black_catch_district_comm_central.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig c7 ----
 harvest %>%
@@ -31,7 +31,7 @@ harvest %>%
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) +
   scale_color_grey()
 
-ggsave("figs/black_catch_sport_central.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/c7_black_catch_sport_central.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig c8 ----
 bio %>% 
@@ -52,7 +52,7 @@ bio %>%
   ylab("Year\n") +
   theme(legend.justification=c(0,1), legend.position=c(0,1))
 
-ggsave("figs/black_length_comm_cook_inlet.png", width = 6.5, height = 8, units = "in", dpi = 200)
+ggsave("figs/c8_black_length_comm_cook_inlet.png", width = 6.5, height = 8, units = "in", dpi = 200)
 
 # fig c9 ----
 bio %>% 
@@ -73,7 +73,7 @@ bio %>%
   ylab("Age") +
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) 
 
-ggsave("figs/black_age_comm_cook_inlet.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/c9_black_age_comm_cook_inlet.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 
 # fig c10 ----
@@ -86,7 +86,7 @@ harvest %>%
   scale_fill_grey(name = "") +
   theme(legend.position = c(0.8, 0.8))
 
-ggsave("figs/yelloweye_catch_district_comm_central.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/c10_yelloweye_catch_district_comm_central.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 
 # fig c11 ----
@@ -100,7 +100,7 @@ harvest %>%
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) +
   scale_color_grey()
 
-ggsave("figs/yelloweye_catch_sport_central.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/c11_yelloweye_catch_sport_central.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig c12 ----
 bio %>% 
@@ -114,17 +114,22 @@ bio %>%
                           Area == "H" ~ "CI")) %>% 
   drop_na(Sex) %>% 
   drop_na(Area) %>% 
-  group_by(Year, Sex, length, Area) %>% 
+  group_by(Year, Sex, Area) %>% 
+  mutate(n = n()) %>% 
+  filter(n >= 30, !is.na(Area)) %>% 
+  group_by(Year, Sex, Area, length) %>% 
   summarise(n = n()) %>% 
-  ggplot(aes(length, Year, height = ..density.., fill = Sex)) + 
-  geom_density_ridges(scale = 4, alpha = .6) +
+  left_join(expand.grid(Year = factor(1991:2017), Area = c("PWS", "CI")), .) %>% 
+  filter(Area %in% c("PWS", "CI")) %>% 
+   ggplot(aes(length, Year, height = ..density.., fill = Sex)) + 
+  geom_density_ridges(scale = 2.2, alpha = .6) +
   facet_wrap(~Area) +
   scale_fill_grey() +
   xlab("\nLength (cm)") +
   ylab("Year\n") +
   theme(legend.justification=c(0,1), legend.position=c(.85,.32))
 
-ggsave("figs/yelloweye_length_comm_cook_inlet.png", width = 6.5, height = 8, units = "in", dpi = 200)
+ggsave("figs/c12_yelloweye_length_comm_cook_inlet.png", width = 6.5, height = 8, units = "in", dpi = 200)
 
 # fig c13 ----
 bio %>% 
@@ -148,5 +153,5 @@ bio %>%
   ylab("Age") +
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) 
 
-ggsave("figs/yelloweye_age_comm_cook_inlet.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/c13_yelloweye_age_comm_cook_inlet.png", width = 6.5, height = 5, units = "in", dpi = 200)
 

@@ -20,7 +20,7 @@ harvest %>%
   scale_fill_grey(name = "", labels = c("Jig", "Longline", "Non-pelagic", "Other")) +
   theme(legend.position = c(0.8, 0.8))
 
-ggsave("figs/black_catch_gear_comm_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/w8_black_catch_gear_comm_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig w9 ----
 harvest %>%
@@ -33,7 +33,7 @@ harvest %>%
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) +
   scale_color_grey()
 
-ggsave("figs/black_catch_sport_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/w9_black_catch_sport_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig w10 ----
 # brf lengths - commfish 
@@ -51,7 +51,7 @@ bio %>%
   ylab("Year\n") +
   theme(legend.justification=c(0,1), legend.position=c(0,1))
 
-ggsave("figs/black_length_comm_westward.png", width = 6.5, height = 8, units = "in", dpi = 200)
+ggsave("figs/w10_black_length_comm_westward.png", width = 6.5, height = 8, units = "in", dpi = 200)
 
 
 # fig w11 ----
@@ -73,7 +73,7 @@ bio %>%
   ylab("Age") +
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) 
 
-ggsave("figs/black_age_comm_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/w11_black_age_comm_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 
 
@@ -98,7 +98,7 @@ sport_bio %>%
   ylab("Year\n") +
   theme(legend.justification=c(0,1), legend.position=c(0,1))
 
-ggsave("figs/black_length_sport_westward.png", width = 6.5, height = 8, units = "in", dpi = 200)
+ggsave("figs/w12_black_length_sport_westward.png", width = 6.5, height = 8, units = "in", dpi = 200)
 
 # fig w13 ----
 # brf ages - sportfish 
@@ -119,7 +119,7 @@ sport_bio %>%
   ylab("Age") +
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) 
 
-ggsave("figs/black_age_sport_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/w13_black_age_sport_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 
 # fig w14 ----
@@ -136,5 +136,5 @@ harvest %>%
   scale_fill_grey(name = "") +
   theme(legend.position = c(0.8, 0.8))
 
-ggsave("figs/yellow_catch_gear_comm_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/w14_yellow_catch_gear_comm_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
