@@ -22,7 +22,7 @@ harvest %>%
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) +
   scale_fill_grey(name = "")
 
-ggsave("figs/black_catch_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/se3_black_catch_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 
 # fig se4 ----
@@ -34,7 +34,7 @@ harvest %>%
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) +
   scale_fill_grey(name = "")
 
-ggsave("figs/pelagic_catch_sport_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/se4_pelagic_catch_sport_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig se5 ----
 
@@ -54,7 +54,7 @@ br_bio %>%
   ylab("Year\n") +
   theme(legend.justification=c(0,1), legend.position=c(0,1))
 
-ggsave("figs/black_length_comm_southeast.png", width = 6.5, height = 8, units = "in", dpi = 200)
+ggsave("figs/se5_black_length_comm_southeast.png", width = 6.5, height = 8, units = "in", dpi = 200)
 
 
 # fig se6 ----
@@ -76,11 +76,11 @@ br_bio %>%
   ylab("Age") +
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) 
 
-ggsave("figs/black_age_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/se6_black_age_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig se7 ----
 inside %>% 
-  filter(SPECIES_CODE == 145) %>% 
+  filter(SPECIES_CODE == 145) %>%
   mutate(fishery_type = case_when(fishery_type == "Directed" ~ "Directed",
                                   YEAR < 1990 ~ "Mixed",
                                   TRUE ~ "Incidental")) %>% 
@@ -93,7 +93,7 @@ inside %>%
   scale_fill_grey(name = "") +
   theme(legend.justification=c(1,1), legend.position=c(1,1))
 
-ggsave("figs/yelloweye_catch_direct_incidental_inside_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/se7_yelloweye_catch_direct_incidental_inside_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig se8 ----
 outside %>% 
@@ -110,7 +110,7 @@ outside %>%
   scale_fill_grey(name = "") +
   theme(legend.justification=c(1,1), legend.position=c(1,1))
 
-ggsave("figs/yelloweye_catch_direct_incidental_outside_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/se8_yelloweye_catch_direct_incidental_outside_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig se9 ----
 harvest %>% 
@@ -122,7 +122,7 @@ harvest %>%
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) +
   scale_fill_grey(name = "")
 
-ggsave("figs/yelloweye_catch_district_sport_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/se9_yelloweye_catch_district_sport_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 
 # fig se10 ----
@@ -145,7 +145,7 @@ read_csv("data/dsr_bio_1983-1995.csv") %>%
   ylab("Year\n") +
   theme(legend.justification=c(0,1), legend.position=c(0,1))
 
-ggsave("figs/dsr_length_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/se10_dsr_length_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 
 
@@ -172,5 +172,5 @@ read_csv("data/dsr_bio_1983-1995.csv") %>%
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) +
   ylab("Age")
 
-ggsave("figs/dsr_age_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/se11_dsr_age_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
