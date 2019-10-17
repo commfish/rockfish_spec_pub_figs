@@ -11,23 +11,38 @@ br_bio <- read_csv("data/br_bio.csv") %>%
 
 sport_bio <- read_csv("data/sport_brf_bio_se.csv", guess_max = 50000)
 
-xaxis <- tickr(harvest, year, 5)
-
+read_csv('data/black_groundfish.csv', guess_max = 50000) %>% 
+  dplyr::select(year, Pounds, Round_Pounds, CFEC_Permit) %>% 
+  bind_rows(read_csv("data/black_troll.csv", guess_max = 50000) %>% 
+  dplyr::select(year, Pounds, Round_Pounds, CFEC_Permit)) %>% 
+  mutate(Round_Pounds = case_when(Round_Pounds < Pounds ~ Pounds,
+                                  is.na(Round_Pounds) ~ Pounds,
+                                  TRUE ~ Round_Pounds),
+         fishery = case_when(CFEC_Permit %in% c("M05B","M15B", "M25B", "M26B") ~ "directed",
+                             CFEC_Permit %in% c("S05B", "S15B") ~ "salmon troll", 
+                             CFEC_Permit == "M07B" & year==1987 ~ "Question",
+                             TRUE ~ "incidental")) %>% 
+  filter(fishery!="Question") %>%
+  dplyr::select(year, catch = Round_Pounds, fishery) -> se_brf
 
 # fig se3 ----
 
-harvest %>% 
-  filter(species == "black", fishery == "comm", region == "southeast") %>% 
-  ggplot(aes(year, catch)) +
+xaxis <- tickr(se_brf, year, 5)
+
+se_brf %>% 
+  ggplot(aes(year, catch, fill = fishery)) +
   geom_bar(stat = "identity") +
   scale_y_continuous(name = "Harvest (lbs)\n", labels = scales::comma) +
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) +
-  scale_fill_grey(name = "")
+  scale_fill_grey(name = "") +
+  theme(legend.justification=c(1,1), legend.position=c(1,1))
 
 ggsave("figs/se3_black_catch_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 
 # fig se4 ----
+
+xaxis <- tickr(harvest, year, 5)
 harvest %>% 
   filter(species == "pelagic", fishery == "sport", region == "southeast") %>% 
   ggplot(aes(year, catch)) +
@@ -240,3 +255,27 @@ read_csv("data/dsr_bio_1983-1995.csv") %>%
 
 ggsave("figs/se11_dsr_age_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
+# fig seXX ----
+
+
+sport_bio %>% 
+  filter(Species == "Yelloweye") %>% 
+  dplyr::select(sex, year, length, age) %>% 
+  mutate(Sex = case_when(sex == "M" ~ "male", 
+                         sex == "F" ~ "female"), 
+         Year = factor(year),
+         length = round(length / 10)) %>% 
+  dplyr::filter(year!=2005) -> sport_ye
+
+xaxis <- tickr(sport_ye, length, start = 10, end = 110)
+
+sport_ye %>%
+  ggplot(aes(length, Year, height = ..density..)) + 
+  geom_density_ridges(scale = 2.2, alpha = .6) +
+  # facet_wrap(~Sex) +
+  scale_fill_grey() +
+  ylab("Year\n") +
+  theme(legend.justification=c(0,1), legend.position=c(0,1)) +
+  scale_x_continuous(name = "\nLength (cm)", labels = xaxis$labels, breaks = xaxis$breaks) 
+
+ggsave("figs/seXXXX_yelloweye_length_sport_southeast.png", width = 6.5, height = 8, units = "in", dpi = 200)
