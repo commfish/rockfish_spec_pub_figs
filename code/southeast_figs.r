@@ -9,6 +9,8 @@ inside <- read_csv("data/84-2019 inside ye harvest.csv")
 br_bio <- read_csv("data/br_bio.csv") %>% 
   rename_all(tolower)
 
+sport_bio <- read_csv("data/sport_brf_bio_se.csv", guess_max = 50000)
+
 xaxis <- tickr(harvest, year, 5)
 
 
@@ -61,7 +63,7 @@ ggsave("figs/se5_black_length_comm_southeast.png", width = 6.5, height = 8, unit
 br_bio %>% 
   filter(species_code==142) %>% 
   dplyr::select(sex = sex_code, year, length = length_millimeters, age) %>% 
-  mutate(Sex = case_when(sex == 1~ "male", 
+  mutate(Sex = case_when(sex == 1 ~ "male", 
                          sex==2 ~ "female"), 
          Year = factor(year),
          length = length / 10) %>% 
@@ -78,9 +80,73 @@ br_bio %>%
 
 ggsave("figs/se6_black_age_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
+# fig seX ----
+xaxis <- tickr(sport_bio, length, 5)
+
+sport_bio %>% 
+  filter(Species == "black") %>% 
+  dplyr::select(sex, year, length, age) %>% 
+  mutate(Sex = case_when(sex == "M" ~ "male", 
+                         sex == "F" ~ "female"), 
+         Year = factor(year),
+         length = length / 10) %>% 
+  # drop_na(Sex) %>% 
+  ggplot(aes(length, Year, height = ..density..)) + 
+  geom_density_ridges(scale = 2.2, alpha = .6) +
+  # facet_wrap(~Sex) +
+  scale_fill_grey() +
+  ylab("Year\n") +
+  theme(legend.justification=c(0,1), legend.position=c(0,1)) +
+  scale_x_continuous(name = "\nLength (cm)", labels = xaxis$labels, breaks = xaxis$breaks) 
+
+ggsave("figs/seX_black_length_sport_southeast.png", width = 6.5, height = 8, units = "in", dpi = 200)
+
+# fig seXX ----
+
+sport_bio %>% 
+  filter(Species == "black") %>% 
+  dplyr::select(sex, year, length, age) %>% 
+  mutate(Sex = case_when(sex == "M" ~ "male", 
+                         sex == "F" ~ "female"), 
+         Year = factor(year),
+         length = length / 10) %>% 
+  drop_na(Sex) %>% 
+  drop_na(age) %>% 
+  group_by(year, Sex, age) %>% 
+  summarise(n = n()) %>% 
+  ggplot(aes(year, age, size = n)) + 
+  geom_point() +
+  scale_size_area() +
+  facet_wrap(~Sex) +
+  theme(legend.justification=c(0,1), legend.position=c(.36,1)) +
+  ylab("Age") +
+  scale_x_continuous(breaks = 2016:2018)
+
+ggsave("figs/sexx_black_age_sport_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+
+# fig seXX ----
+
+sport_bio %>% 
+  filter(Species == "black") %>% 
+  dplyr::select(sex, year, length, age) %>% 
+  mutate(Sex = case_when(sex == "M" ~ "male", 
+                         sex == "F" ~ "female"), 
+         Year = factor(year),
+         length = length / 10) %>% 
+  drop_na(Sex) %>%
+  ggplot(aes(length, Year, height = ..density..)) + 
+  geom_density_ridges(scale = 2.2, alpha = .6) +
+  facet_wrap(~Sex) +
+  scale_fill_grey() +
+  ylab("Year\n") +
+  theme(legend.justification=c(0,1), legend.position=c(0,1)) +
+  scale_x_continuous(name = "\nLength (cm)", labels = xaxis$labels, breaks = xaxis$breaks) 
+
+ggsave("figs/seXXX_black_length_sport_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+
+
 # fig se7 ----
 inside %>% 
-  filter(SPECIES_CODE == 145) %>%
   mutate(fishery_type = case_when(fishery_type == "Directed" ~ "Directed",
                                   YEAR < 1990 ~ "Mixed",
                                   TRUE ~ "Incidental")) %>% 
