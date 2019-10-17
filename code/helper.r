@@ -1,4 +1,4 @@
 library(tidyverse)
 library(ggridges)
-library(FNGr)
-theme_set(theme_sleek())
+library(fngr) # devtools::install_github("commfish/fngr")
+theme_set(theme_report())
