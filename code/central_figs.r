@@ -18,7 +18,7 @@ harvest %>%
   scale_fill_grey(name = "") +
   theme(legend.position = c(0.8, 0.8))
 
-ggsave("figs/c6_black_catch_district_comm_central.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f21_black_catch_district_comm_central.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig c7 ----
 harvest %>%
@@ -31,9 +31,10 @@ harvest %>%
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) +
   scale_color_grey()
 
-ggsave("figs/c7_black_catch_sport_central.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f22_black_catch_sport_central.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig c8 ----
+xaxis <- tickr(bio, `Length CM`, 10, start = 20)
 bio %>% 
   filter(Species==142, `Division Code` == "CF") %>% 
   dplyr::select(sex = `Maturity Sex`, year = `Sample Year`, length = `Length CM`, 
@@ -45,16 +46,18 @@ bio %>%
   group_by(Year, Sex, length) %>% 
   summarise(n = n()) %>% 
   ggplot(aes(length, Year, height = ..density..)) + 
-  geom_density_ridges(scale = 2.2, alpha = .6) +
+  geom_density_ridges(scale = 1.5, alpha = .6) +
   facet_wrap(~Sex) +
   scale_fill_grey() +
-  xlab("\nLength (cm)") +
+  scale_x_continuous(name = "\nLength (cm)", labels = xaxis$labels, breaks = xaxis$breaks, limits = c(23, 65)) +
   ylab("Year\n") +
-  theme(legend.justification=c(0,1), legend.position=c(0,1))
+  theme(legend.justification=c(0,1), legend.position=c(0,1)) +
+  scale_y_discrete(expand = expand_scale(add = c(0.2, 1.2)))
 
-ggsave("figs/c8_black_length_comm_cook_inlet.png", width = 6.5, height = 8, units = "in", dpi = 200)
+ggsave("figs/f23_black_length_comm_cook_inlet.png", width = 6.5, height = 8, units = "in", dpi = 200)
 
 # fig c9 ----
+xaxis <- tickr(harvest, year, 5)
 bio %>% 
   filter(Species==142, `Division Code` == "CF") %>% 
   dplyr::select(sex = `Maturity Sex`, year = `Sample Year`, length = `Length CM`, 
@@ -73,10 +76,11 @@ bio %>%
   ylab("Age") +
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) 
 
-ggsave("figs/c9_black_age_comm_cook_inlet.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f24_black_age_comm_cook_inlet.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 
 # fig c10 ----
+
 harvest %>%
   filter(species == "yelloweye", fishery == "comm", region == "central") %>% 
   ggplot(aes(year, catch, fill = District)) +
@@ -86,7 +90,7 @@ harvest %>%
   scale_fill_grey(name = "") +
   theme(legend.position = c(0.8, 0.8))
 
-ggsave("figs/c10_yelloweye_catch_district_comm_central.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f25_yelloweye_catch_district_comm_central.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 
 # fig c11 ----
@@ -100,9 +104,10 @@ harvest %>%
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) +
   scale_color_grey()
 
-ggsave("figs/c11_yelloweye_catch_sport_central.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f26_yelloweye_catch_sport_central.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig c12 ----
+xaxis <- tickr(bio, `Length CM`, 10, start = 20)
 bio %>% 
   filter(Species==145, `Division Code` == "CF") %>% 
   dplyr::select(sex = `Maturity Sex`, year = `Sample Year`, length = `Length CM`, 
@@ -122,16 +127,18 @@ bio %>%
   left_join(expand.grid(Year = factor(1991:2017), Area = c("PWS", "CI")), .) %>% 
   filter(Area %in% c("PWS", "CI")) %>% 
    ggplot(aes(length, Year, height = ..density.., fill = Sex)) + 
-  geom_density_ridges(scale = 2.2, alpha = .6) +
+  geom_density_ridges(scale = 1.5, alpha = .6) +
   facet_wrap(~Area) +
   scale_fill_grey() +
-  xlab("\nLength (cm)") +
+  scale_x_continuous(name = "\nLength (cm)", labels = xaxis$labels, breaks = xaxis$breaks) +
   ylab("Year\n") +
-  theme(legend.justification=c(0,1), legend.position=c(.85,.32))
+  theme(legend.justification=c(0,1), legend.position=c(.85,.32)) +
+  scale_y_discrete(expand = expand_scale(add = c(0.2, 1.3)))
 
-ggsave("figs/c12_yelloweye_length_comm_cook_inlet.png", width = 6.5, height = 8, units = "in", dpi = 200)
+ggsave("figs/f27_yelloweye_length_comm_cook_inlet.png", width = 6.5, height = 8, units = "in", dpi = 200)
 
 # fig c13 ----
+xaxis <- tickr(harvest, year, 5)
 bio %>% 
   filter(Species==145, `Division Code` == "CF") %>% 
   dplyr::select(sex = `Maturity Sex`, year = `Sample Year`, length = `Length CM`, 
@@ -153,5 +160,5 @@ bio %>%
   ylab("Age") +
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) 
 
-ggsave("figs/c13_yelloweye_age_comm_cook_inlet.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f28_yelloweye_age_comm_cook_inlet.png", width = 6.5, height = 5, units = "in", dpi = 200)
 

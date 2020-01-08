@@ -20,7 +20,7 @@ harvest %>%
   scale_fill_grey(name = "", labels = c("Jig", "Longline", "Non-pelagic", "Other")) +
   theme(legend.position = c(0.8, 0.8))
 
-ggsave("figs/w8_black_catch_gear_comm_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f11_black_catch_gear_comm_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig w9 ----
 harvest %>%
@@ -33,10 +33,12 @@ harvest %>%
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) +
   scale_color_grey()
 
-ggsave("figs/w9_black_catch_sport_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f12_black_catch_sport_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig w10 ----
 # brf lengths - commfish 
+xaxis <- tickr(bio, length, 10)
+
 bio %>% 
   dplyr::select(sex, year, length, age) %>% 
   mutate(Sex = case_when(sex == 1~ "male", 
@@ -51,11 +53,12 @@ bio %>%
   ylab("Year\n") +
   theme(legend.justification=c(0,1), legend.position=c(0,1))
 
-ggsave("figs/w10_black_length_comm_westward.png", width = 6.5, height = 8, units = "in", dpi = 200)
+ggsave("figs/f13_black_length_comm_westward.png", width = 6.5, height = 8, units = "in", dpi = 200)
 
 
 # fig w11 ----
 # brf ages - commfish
+xaxis <- tickr(harvest, year, 5)
 bio %>% 
   dplyr::select(sex, year, length, age) %>% 
   mutate(Sex = case_when(sex == 1~ "male", 
@@ -69,20 +72,24 @@ bio %>%
   geom_point() +
   scale_size_area() +
   facet_wrap(~Sex) +
-  theme(legend.justification=c(0,1), legend.position=c(.36,1)) +
+  theme(legend.justification=c(0,1), 
+        legend.position=c(.36,1),
+        legend.title = element_blank()) +
   ylab("Age") +
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) 
 
-ggsave("figs/w11_black_age_comm_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f14_black_age_comm_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 
 
 
 # fig w12 ----
 # brf lengths - sportfish 
+xaxis <- tickr(sport_bio, `Length CM`, 20, start = 20)
+
 sport_bio %>% 
   filter(Species==142, `Division Code` == "SF") %>% 
-  dplyr::select(sex = `Maturity Sex`, year = `Sample Year`, length = `Length CM`, 
+  dplyr::select(sex = `Sex Code`, year = `Sample Year`, length = `Length CM`, 
                 Area = `Mgmt Area Code`, age = Age) %>% 
   filter(Area == "Kod") %>% 
   mutate(Sex = ifelse(sex == 1, "male", "female"), 
@@ -91,14 +98,18 @@ sport_bio %>%
   group_by(Year, Sex, length) %>% 
   summarise(n = n()) %>% 
   ggplot(aes(length, Year, height = ..density..)) + 
-  geom_density_ridges(scale = 2.2, alpha = .6) +
+  geom_density_ridges(scale = 1.5, alpha = .6) +
   facet_wrap(~Sex) +
   scale_fill_grey() +
-  xlab("\nLength (cm)") +
+  scale_x_continuous(name = "\nLength (cm)", 
+                     labels = xaxis$labels, 
+                     breaks = xaxis$breaks,
+                     limits = c(15, 70)) +
   ylab("Year\n") +
-  theme(legend.justification=c(0,1), legend.position=c(0,1))
+  theme(legend.justification=c(0,1), legend.position=c(0,1)) +
+  scale_y_discrete(expand = expand_scale(add = c(0.2, 1.2)))
 
-ggsave("figs/w12_black_length_sport_westward.png", width = 6.5, height = 8, units = "in", dpi = 200)
+ggsave("figs/f15_black_length_sport_westward.png", width = 6.5, height = 8, units = "in", dpi = 200)
 
 # fig w13 ----
 # brf ages - sportfish 
@@ -119,7 +130,7 @@ sport_bio %>%
   ylab("Age") +
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) 
 
-ggsave("figs/w13_black_age_sport_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f16_black_age_sport_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 
 # fig w14 ----
@@ -136,5 +147,5 @@ harvest %>%
   scale_fill_grey(name = "") +
   theme(legend.position = c(0.8, 0.8))
 
-ggsave("figs/w14_yellow_catch_gear_comm_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f17_yellow_catch_gear_comm_westward.png", width = 6.5, height = 5, units = "in", dpi = 200)
 

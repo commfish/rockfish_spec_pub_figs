@@ -37,12 +37,12 @@ se_brf %>%
   scale_fill_grey(name = "") +
   theme(legend.justification=c(1,1), legend.position=c(1,1))
 
-ggsave("figs/se3_black_catch_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f31_black_catch_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 
 # fig se4 ----
 
-xaxis <- tickr(harvest, year, 5)
+xaxis <- tickr(harvest, year, 5, start = 1995)
 harvest %>% 
   filter(species == "pelagic", fishery == "sport", region == "southeast") %>% 
   ggplot(aes(year, catch)) +
@@ -51,10 +51,10 @@ harvest %>%
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) +
   scale_fill_grey(name = "")
 
-ggsave("figs/se4_pelagic_catch_sport_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f32_pelagic_catch_sport_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig se5 ----
-
+xaxis <- tickr(br_bio, length_millimeters/10, 10, start = 20)
 br_bio %>% 
   filter(species_code==142) %>% 
   dplyr::select(sex = sex_code, year, length = length_millimeters, age) %>% 
@@ -64,17 +64,22 @@ br_bio %>%
          length = length / 10) %>% 
   drop_na(Sex) %>% 
   ggplot(aes(length, Year, height = ..density..)) + 
-  geom_density_ridges(scale = 2.2, alpha = .6) +
+  geom_density_ridges(scale = 1.5, alpha = .6) +
   facet_wrap(~Sex) +
   scale_fill_grey() +
-  xlab("\nLength (cm)") +
+  scale_x_continuous(name = "\nLength (cm)", 
+                     labels = xaxis$labels, 
+                     breaks = xaxis$breaks,
+                     limits = c(20, 65)) +
   ylab("Year\n") +
-  theme(legend.justification=c(0,1), legend.position=c(0,1))
+  theme(legend.justification=c(0,1), legend.position=c(0,1)) +
+  scale_y_discrete(expand = expand_scale(add = c(0.2, 2)))
 
-ggsave("figs/se5_black_length_comm_southeast.png", width = 6.5, height = 8, units = "in", dpi = 200)
+ggsave("figs/f33_black_length_comm_southeast.png", width = 6.5, height = 8, units = "in", dpi = 200)
 
 
 # fig se6 ----
+xaxis <- tickr(se_brf, year, 5)
 br_bio %>% 
   filter(species_code==142) %>% 
   dplyr::select(sex = sex_code, year, length = length_millimeters, age) %>% 
@@ -93,10 +98,10 @@ br_bio %>%
   ylab("Age") +
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) 
 
-ggsave("figs/se6_black_age_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f34_black_age_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig seX ----
-xaxis <- tickr(sport_bio, length, 5)
+xaxis <- tickr(sport_bio, round(length/10), 10, start = 10)
 
 sport_bio %>% 
   filter(Species == "black") %>% 
@@ -107,14 +112,15 @@ sport_bio %>%
          length = length / 10) %>% 
   # drop_na(Sex) %>% 
   ggplot(aes(length, Year, height = ..density..)) + 
-  geom_density_ridges(scale = 2.2, alpha = .6) +
+  geom_density_ridges(scale = 1.5, alpha = .6) +
   # facet_wrap(~Sex) +
   scale_fill_grey() +
   ylab("Year\n") +
   theme(legend.justification=c(0,1), legend.position=c(0,1)) +
-  scale_x_continuous(name = "\nLength (cm)", labels = xaxis$labels, breaks = xaxis$breaks) 
+  scale_x_continuous(name = "\nLength (cm)", labels = xaxis$labels, breaks = xaxis$breaks) +
+  scale_y_discrete(expand = expand_scale(add = c(0.2, 1.2)))
 
-ggsave("figs/seX_black_length_sport_southeast.png", width = 6.5, height = 8, units = "in", dpi = 200)
+ggsave("figs/f35_black_length_sport_southeast.png", width = 6.5, height = 8, units = "in", dpi = 200)
 
 # fig seXX ----
 
@@ -150,12 +156,13 @@ sport_bio %>%
          length = length / 10) %>% 
   drop_na(Sex) %>%
   ggplot(aes(length, Year, height = ..density..)) + 
-  geom_density_ridges(scale = 2.2, alpha = .6) +
+  geom_density_ridges(scale = 1.5, alpha = .6) +
   facet_wrap(~Sex) +
   scale_fill_grey() +
   ylab("Year\n") +
   theme(legend.justification=c(0,1), legend.position=c(0,1)) +
-  scale_x_continuous(name = "\nLength (cm)", labels = xaxis$labels, breaks = xaxis$breaks) 
+  scale_x_continuous(name = "\nLength (cm)", labels = xaxis$labels, breaks = xaxis$breaks)  +
+  scale_y_discrete(expand = expand_scale(add = c(0.2, 1.2)))
 
 ggsave("figs/seXXX_black_length_sport_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
@@ -174,9 +181,11 @@ inside %>%
   scale_fill_grey(name = "") +
   theme(legend.justification=c(1,1), legend.position=c(1,1))
 
-ggsave("figs/se7_yelloweye_catch_direct_incidental_inside_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f36_yelloweye_catch_direct_incidental_inside_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig se8 ----
+
+xaxis <- tickr(se_brf, year, 5)
 outside %>% 
   filter(SPECIES_CODE == 145) %>% 
   mutate(fishery_type = case_when(fishery_type == "Directed" ~ "Directed",
@@ -191,7 +200,7 @@ outside %>%
   scale_fill_grey(name = "") +
   theme(legend.justification=c(1,1), legend.position=c(1,1))
 
-ggsave("figs/se8_yelloweye_catch_direct_incidental_outside_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f37_yelloweye_catch_direct_incidental_outside_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig se9 ----
 harvest %>% 
@@ -203,7 +212,7 @@ harvest %>%
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) +
   scale_fill_grey(name = "")
 
-ggsave("figs/se9_yelloweye_catch_district_sport_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f38_yelloweye_catch_district_sport_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 
 # fig se10 ----
@@ -219,14 +228,15 @@ read_csv("data/dsr_bio_1983-1995.csv") %>%
   drop_na(Sex) %>% 
   drop_na(Area) %>% 
   ggplot(aes(length, Year, height = ..density..)) + 
-  geom_density_ridges(scale = 2.2, alpha = .6) +
+  geom_density_ridges(scale = 1.4, alpha = .6) +
   facet_wrap(~Sex) +
   scale_fill_grey() +
   xlab("\nLength (cm)") +
   ylab("Year\n") +
-  theme(legend.justification=c(0,1), legend.position=c(0,1))
+  theme(legend.justification=c(0,1), legend.position=c(0,1)) +
+  scale_y_discrete(expand = expand_scale(add = c(0.2, 1.5)))
 
-ggsave("figs/se10_dsr_length_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f39_dsr_length_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 
 
@@ -245,7 +255,7 @@ read_csv("data/dsr_bio_1983-1995.csv") %>%
   group_by(year, age, Area, Sex) %>% 
   summarise(n = n()) %>% 
   ggplot(aes(year, age, size = n, color = Sex)) + 
-  geom_point(alpha = 0.7) + 
+  geom_point(alpha = 0.6) + 
   scale_size_area() +
   facet_wrap(~Area) +
   scale_color_grey() +
@@ -253,7 +263,7 @@ read_csv("data/dsr_bio_1983-1995.csv") %>%
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) +
   ylab("Age")
 
-ggsave("figs/se11_dsr_age_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f40_dsr_age_comm_southeast.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig seXX ----
 
@@ -267,15 +277,19 @@ sport_bio %>%
          length = round(length / 10)) %>% 
   dplyr::filter(year!=2005) -> sport_ye
 
-xaxis <- tickr(sport_ye, length, start = 10, end = 110)
+xaxis <- tickr(sport_ye, length, 20, start = 20)
 
 sport_ye %>%
   ggplot(aes(length, Year, height = ..density..)) + 
-  geom_density_ridges(scale = 2.2, alpha = .6) +
+  geom_density_ridges(scale = 1.5, alpha = .6) +
   # facet_wrap(~Sex) +
   scale_fill_grey() +
   ylab("Year\n") +
   theme(legend.justification=c(0,1), legend.position=c(0,1)) +
-  scale_x_continuous(name = "\nLength (cm)", labels = xaxis$labels, breaks = xaxis$breaks) 
+  scale_x_continuous(name = "\nLength (cm)", 
+                     labels = xaxis$labels, 
+                     breaks = xaxis$breaks,
+                     limits = c(20, 110))  +
+  scale_y_discrete(expand = expand_scale(add = c(0.2, 2)))
 
-ggsave("figs/seXXXX_yelloweye_length_sport_southeast.png", width = 6.5, height = 8, units = "in", dpi = 200)
+ggsave("figs/f41_yelloweye_length_sport_southeast.png", width = 6.5, height = 8, units = "in", dpi = 200)
