@@ -20,7 +20,7 @@ harvest %>%
   scale_fill_grey(name = "") +
   theme(legend.justification=c(1,1), legend.position=c(1,1))
 
-ggsave("figs/sw2_black_catch_comm_state.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f1_black_catch_comm_state.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 # fig sw3 ----
 harvest %>% 
@@ -34,7 +34,7 @@ harvest %>%
   scale_fill_grey(name = "") +
   theme(legend.justification=c(1,1), legend.position=c(1,1))
 
-ggsave("figs/sw3_yelloweye_catch_comm_state.png", width = 6.5, height = 5, units = "in", dpi = 200)
+ggsave("figs/f2_yelloweye_catch_comm_state.png", width = 6.5, height = 5, units = "in", dpi = 200)
 
 
 # fig sw4 ----
@@ -46,7 +46,7 @@ sport_release %>%
   scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) +
   theme(legend.justification=c(1,1), legend.position=c(.3,1))
 
-ggsave("figs/sw4_catch_retained_sport_state.png", width = 6.5, height = 5, units = "in", dpi = 200)   
+ggsave("figs/f3_catch_retained_sport_state.png", width = 6.5, height = 5, units = "in", dpi = 200)   
 
 
 # fig sw5 ----
@@ -61,7 +61,7 @@ sport_release %>%
    scale_x_continuous(name = "\nYear", labels = xaxis$labels, breaks = xaxis$breaks) +
    theme(legend.justification=c(1,1), legend.position=c(1,1))
 
-ggsave("figs/sw5_perc_catch_released_sport_state.png", width = 6.5, height = 5, units = "in", dpi = 200)   
+ggsave("figs/f4_perc_catch_released_sport_state.png", width = 6.5, height = 5, units = "in", dpi = 200)   
 
 
 
